@@ -29,6 +29,7 @@ const config = {
       plugins: [
         new HtmlWebpackPlugin({
           template: './src/index.html',
+          title: 'Cool Photo Gallery',
           files: {
             css: ['style.css'],
             js: ['bundle.js']
