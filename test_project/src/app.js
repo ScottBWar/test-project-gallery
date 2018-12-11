@@ -1,36 +1,55 @@
 require('./assets/less/styles.less');
 
-// var url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=jersey&per_page=50'
+
+MOCK_MODE = false;
+var url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=jersey&per_page=50'
 
 
-// function showPictures(endpoint){
-//     var xhr = new XMLHttpRequest();
-//     xhr.open('GET', endpoint);
-//     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-//     xhr.onload = function() {
-//             if (xhr.status === 200) {
-//                 console.dir(xhr);
-//                 var json = JSON.parse(xhr.responseText);
-//                 console.dir(json.hits);
-//                 makePicsArray(json.hits);
-//             }
-//             else {
-//                 console.warn('Request failed:' + xhr.status);
-//             }
-//         };
-//         xhr.send();
+function getAllPictures(endpoint){
+    if(MOCK_MODE){
+        var numArray = [];
+        for(var i = 0; i <= 50; i++){
+            numArray.push(i);
+        }
+        makePaginationButtons(numArray);
+        showPictures(numArray, 1);
+
+        return
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', endpoint);
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    console.log("SENDING REQUEST");
+    console.dir(xhr);
+    xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.dir(xhr);
+                var json = JSON.parse(xhr.responseText);
+                console.dir(json.hits);
+                var responseArray = json.hits;
+                console.log(responseArray);
+                makePaginationButtons(responseArray);
+                showPictures(responseArray, 1);
+            }
+            else {
+                console.warn('Request failed:' + xhr.status);
+            }
+        };
+        xhr.send();
       
-// }
-
-// fetch(url);
-
-var numArray = [];
-for(var i = 0; i <= 50; i++){
-    numArray.push(i);
 }
 
+
+
+
+
 function Thumbnail(type, src){
-    this.html = '<div class="img_container"><image class="fetch_image" src="' + "http://placekitten.com/"+ (Math.floor(Math.random() * 5) + 3)  + "00/" + (Math.floor(Math.random() * 5) + 2)   + "00" + '"></div>'
+    if(MOCK_MODE){
+        this.html = '<div class="img_container"><image class="fetch_image" src="' + "http://placekitten.com/"+ (Math.floor(Math.random() * 5) + 3)  + "00/" + (Math.floor(Math.random() * 5) + 2)   + "00" + '"></div>';
+    }else{
+        this.html = '<div class="img_container"><image class="fetch_image" src="' + src + '"></div>';
+
+    }
 }
 
 function showPictures(responseArray, page){
@@ -42,7 +61,8 @@ function showPictures(responseArray, page){
 
     var picsArray = [];
     for (var i = ((page - 1) * 10); i < ((page * 10)); i++){
-        var thumb = new Thumbnail('image', 'responseArray[i].largeImageURL')
+        console.log(responseArray[i])
+        var thumb = new Thumbnail('image', responseArray[i].largeImageURL)
         picsArray.push(thumb);
         document.getElementById("container_large").innerHTML += thumb.html; 
     }
@@ -74,7 +94,7 @@ function makePaginationButtons(responseArray){
                 page_buttons[j].classList.remove('disabled');
             }
             console.log("show page: " + page)
-            showPictures(numArray, page); 
+            showPictures(responseArray, page); 
             this.classList.add('disabled');
             document.getElementById('page_indicator').innerHTML = "Viewing Page " + page;
         }
@@ -95,8 +115,6 @@ function closeViewer(){
     document.getElementById('modal').classList.remove('open');
 }
 
-makePaginationButtons(numArray);
-showPictures(numArray, 1);
-
+getAllPictures(url);
 
 
