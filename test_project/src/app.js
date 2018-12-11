@@ -30,7 +30,7 @@ for(var i = 0; i <= 50; i++){
 }
 
 function Thumbnail(type, src){
-    this.html = '<div class="img_container"><image class="fetch_image" style="padding:5px;border:5px solid #7f8c8d;border-radius:15px;" src="' + "http://placekitten.com/"+ (Math.floor(Math.random() * 5) + 1)  + "00/" + (Math.floor(Math.random() * 5) + 1)   + "00" + '"></div>'
+    this.html = '<div class="img_container"><image class="fetch_image" src="' + "http://placekitten.com/"+ (Math.floor(Math.random() * 5) + 3)  + "00/" + (Math.floor(Math.random() * 5) + 2)   + "00" + '"></div>'
 }
 
 function showPictures(responseArray, page){
