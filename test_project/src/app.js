@@ -2,17 +2,12 @@ require('./assets/less/styles.less');
 
 
 MOCK_MODE = false;
-var init_url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=jersey&per_page=50'
+var init_url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=new%20jersey&per_page=50'
 
 
 function getAllPictures(endpoint){
-    if(MOCK_MODE || !endpoint){
-        var numArray = [];
-        for(var i = 0; i <= 50; i++){
-            numArray.push(i);
-        }
-        showPictures(numArray, 1);
-        makePaginationButtons(numArray);
+    if(!endpoint){
+        useMockMode();
         return
     }
     var xhr = new XMLHttpRequest();
@@ -24,25 +19,38 @@ function getAllPictures(endpoint){
                 console.dir(xhr);
                 var json = JSON.parse(xhr.responseText);
                 console.dir(json.hits);
-                var responseArray = json.hits;
-                makePaginationButtons(responseArray);
-                showPictures(responseArray, 1);
+                if(json.hits.length < 1 || !json.hits){
+                    useMockMode();
+                }else if (json.hits.length > 1){
+                    MOCK_MODE = false;
+                    var responseArray = json.hits;
+                    makePaginationButtons(responseArray);
+                    showPictures(responseArray, 1);
+                }
+              
             }
             else {
                 console.warn('Request failed:' + xhr.status);
                     //mock mode
-                    MOCK_MODE = true;
-                    var numArray = [];
-                    for(var i = 0; i <= 50; i++){
-                        numArray.push(i);
-                    }
-                    showPictures(numArray, 1);
-                    makePaginationButtons(numArray);
+                    useMockMode();
                     return
                     //
             }
         };
         xhr.send();
+}
+
+
+function useMockMode(){
+    MOCK_MODE = true;
+    var numArray = [];
+    for(var i = 0; i <= 50; i++){
+        numArray.push(i);
+    }
+    showPictures(numArray, 1);
+    makePaginationButtons(numArray);
+    MOCK_MODE = false;
+    return
 }
 
 
@@ -99,7 +107,9 @@ function makePaginationButtons(responseArray){
     }
 
     var page_buttons = document.getElementsByClassName('pagination_button');
-    page_buttons[0].classList.add('disabled');
+    if(page_buttons[0]){
+        page_buttons[0].classList.add('disabled');
+    }
     for(var i = 0; i < page_buttons.length; i++) {
         var element = page_buttons[i];
 
