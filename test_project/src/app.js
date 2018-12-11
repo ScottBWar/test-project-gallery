@@ -2,7 +2,7 @@ require('./assets/less/styles.less');
 
 
 MOCK_MODE = false;
-var url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=jersey&per_page=50'
+var init_url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=jersey&per_page=50'
 
 
 function getAllPictures(endpoint){
@@ -30,7 +30,7 @@ function getAllPictures(endpoint){
             }
             else {
                 console.warn('Request failed:' + xhr.status);
-                    //cat mode
+                    //mock mode
                     MOCK_MODE = true;
                     var numArray = [];
                     for(var i = 0; i <= 50; i++){
@@ -88,6 +88,9 @@ function showPictures(responseArray, page){
 
 function makePaginationButtons(responseArray){
    
+    if(document.getElementById("pagination_button_container").childNodes.length > 0){
+        document.getElementById("pagination_button_container").innerHTML = '';
+    }
     for (var index = 0; index < responseArray.length; index++){
         if (((index + 1 )  % 10) === 0){
             var paginationButtonHtml = '<button data-page="' + parseInt((index / 10) +1) +  '" id="pagination_button_' + parseInt((index / 10) +1) + '" class="pagination_button">'+ parseInt((index / 10) +1) +'</button>'
@@ -128,8 +131,15 @@ function closeViewer(){
 }
 
 document.addEventListener("DOMContentLoaded", function(event) { 
-    getAllPictures(url);
+    getAllPictures(init_url);
 });
+
+document.getElementById('search_button').addEventListener('click',function(){
+    var searchQuery = document.getElementById('search_input').value;
+    var newUrl = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=' + searchQuery + '&per_page=50';
+    getAllPictures(newUrl);
+    document.getElementById('query_term').innerText = searchQuery;
+})
 
 
 module.exports.getAllPictures = getAllPictures;
