@@ -83,9 +83,16 @@ function makePaginationButtons(responseArray){
 }
 
 function openViewer(picElement){
-    var viewer = '<div id="viewer"><image id="image_closeup" src="' + picElement.getAttribute('src') + '"></div>'    
+    var viewer = '<div id="viewer"><image id="image_closeup" src="' + picElement.getAttribute('src') + '" ></div>'    
     document.getElementById('modal').classList.add('open');
     document.getElementById('modal').innerHTML = viewer;
+    document.getElementById('viewer').onclick = function(e){
+        closeViewer();
+    }
+}
+
+function closeViewer(){
+    document.getElementById('modal').classList.remove('open');
 }
 
 makePaginationButtons(numArray);

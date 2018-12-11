@@ -58,7 +58,8 @@ body {
     &.open{
         display:block;
     }
-    #image_closeup{
+    
+    #viewer{
         position:absolute;
         top: 50%;
         left: 50%;
@@ -67,7 +68,23 @@ body {
         -ms-transform: translate(-50%, -50%);
         -o-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
-        max-width:90%;
+        background:	rgba(0, 0, 0, 0.8);
+        width:90%;
+        height:90%;
+
+        #image_closeup{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: auto;
+            // max-width:100%;
+            // max-height:100%;
+            -webkit-transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                    transform: translate(-50%,-50%);
+            overflow-x:scroll;
+        }
+
     }      
   }
     
