@@ -24,7 +24,10 @@ require('./assets/less/styles.less');
 
 // fetch(url);
 
-var numArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+var numArray = [];
+for(var i = 0; i <= 50; i++){
+    numArray.push(i);
+}
 
 function Thumbnail(type, src){
     this.html = '<div class="img_container"><image class="fetch_image" style="padding:5px;border:5px solid #7f8c8d;border-radius:15px;" src="' + "http://placekitten.com/"+ (Math.floor(Math.random() * 5) + 1)  + "00/" + (Math.floor(Math.random() * 5) + 1)   + "00" + '"></div>'
@@ -41,33 +44,38 @@ function showPictures(responseArray, page){
     for (var i = ((page - 1) * 10); i < ((page * 10)); i++){
         var thumb = new Thumbnail('image', 'responseArray[i].largeImageURL')
         picsArray.push(thumb);
-        document.getElementById("big_photo_container").innerHTML += thumb.html;
-        console.log(thumb);
+        document.getElementById("container_large").innerHTML += thumb.html;
     }
-    console.log(picsArray);
 }
 
 function makePaginationButtons(responseArray){
    
     for (var index = 0; index < responseArray.length; index++){
         if (((index + 1 )  % 10) === 0){
-            var paginationButtonHtml = '<button data-page="' + parseInt((index / 10) +1) +  '" id="pagination_button_' + parseInt((index / 10) +1) + '" class="paginaton_button"> Page '+ parseInt((index / 10) +1) +'</button>'
+            var paginationButtonHtml = '<button data-page="' + parseInt((index / 10) +1) +  '" id="pagination_button_' + parseInt((index / 10) +1) + '" class="pagination_button">'+ parseInt((index / 10) +1) +'</button>'
             document.getElementById("pagination_button_container").innerHTML += paginationButtonHtml;
         }
     }
 
-    var page_buttons = document.getElementsByClassName('paginaton_button');
+    var page_buttons = document.getElementsByClassName('pagination_button');
     for(var i = 0; i < page_buttons.length; i++) {
         var element = page_buttons[i];
         element.onclick = function(e) {
             var page = this.getAttribute('data-page');
+            for(var j = 0; j < page_buttons.length; j++){
+                page_buttons[j].classList.remove('disabled');
+            }
+            console.log("show page: " + page)
             showPictures(numArray, page); 
+            this.classList.add('disabled');
+            document.getElementById('page_indicator').innerHTML = "Viewing Page " + page;
         }
     }
 
 }
 
 makePaginationButtons(numArray);
+showPictures(numArray, 1);
 
 
 
