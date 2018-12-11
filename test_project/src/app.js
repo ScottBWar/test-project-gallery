@@ -71,6 +71,10 @@ function showPictures(responseArray, page){
         }
     }
 
+    if(!document.getElementById('page_indicator').innerHTML){
+        document.getElementById('page_indicator').innerHTML = "Page " + 1;
+    }
+
 }
 
 function makePaginationButtons(responseArray){
@@ -93,7 +97,7 @@ function makePaginationButtons(responseArray){
             console.log("show page: " + page)
             showPictures(responseArray, page); 
             this.classList.add('disabled');
-            document.getElementById('page_indicator').innerHTML = "Viewing Page " + page;
+            document.getElementById('page_indicator').innerHTML = "Page " + page;
         }
     }
 
