@@ -67,9 +67,6 @@ function makePaginationButtons(responseArray){
 
 }
 
-
-
-// showPictures(numArray, 1);
 makePaginationButtons(numArray);
 
 
