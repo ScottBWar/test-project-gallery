@@ -6,7 +6,7 @@ var url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=1096
 
 
 function getAllPictures(endpoint){
-    if(MOCK_MODE){
+    if(MOCK_MODE || !endpoint){
         var numArray = [];
         for(var i = 0; i <= 50; i++){
             numArray.push(i);
@@ -18,8 +18,7 @@ function getAllPictures(endpoint){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', endpoint);
     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    console.log("Sending Request");
-    console.dir(xhr);
+  
     xhr.onload = function() {
             if (xhr.status === 200) {
                 console.dir(xhr);
@@ -31,10 +30,19 @@ function getAllPictures(endpoint){
             }
             else {
                 console.warn('Request failed:' + xhr.status);
+                    //cat mode
+                    MOCK_MODE = true;
+                    var numArray = [];
+                    for(var i = 0; i <= 50; i++){
+                        numArray.push(i);
+                    }
+                    showPictures(numArray, 1);
+                    makePaginationButtons(numArray);
+                    return
+                    //
             }
         };
         xhr.send();
-      
 }
 
 
@@ -116,6 +124,9 @@ function closeViewer(){
     document.getElementById('modal').classList.remove('open');
 }
 
-getAllPictures(url);
+document.addEventListener("DOMContentLoaded", function(event) { 
+    getAllPictures(url);
+});
 
 
+module.exports.getAllPictures = getAllPictures;
