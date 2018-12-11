@@ -1,7 +1,7 @@
 require('./assets/less/styles.less');
 
 
-MOCK_MODE = false;
+MOCK_MODE = true;
 var url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=jersey&per_page=50'
 
 
@@ -19,7 +19,7 @@ function getAllPictures(endpoint){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', endpoint);
     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    console.log("SENDING REQUEST");
+    console.log("Sending Request");
     console.dir(xhr);
     xhr.onload = function() {
             if (xhr.status === 200) {
@@ -27,7 +27,6 @@ function getAllPictures(endpoint){
                 var json = JSON.parse(xhr.responseText);
                 console.dir(json.hits);
                 var responseArray = json.hits;
-                console.log(responseArray);
                 makePaginationButtons(responseArray);
                 showPictures(responseArray, 1);
             }
@@ -45,7 +44,7 @@ function getAllPictures(endpoint){
 
 function Thumbnail(type, src){
     if(MOCK_MODE){
-        this.html = '<div class="img_container"><image class="fetch_image" src="' + "http://placekitten.com/"+ (Math.floor(Math.random() * 5) + 3)  + "00/" + (Math.floor(Math.random() * 5) + 2)   + "00" + '"></div>';
+        this.html = '<div class="img_container"><image class="fetch_image" src="' + "http://placekitten.com/"+ (Math.floor(Math.random() * 5) + 10)  + "00/" + (Math.floor(Math.random() * 5) + 8)   + "00" + '"></div>';
     }else{
         this.html = '<div class="img_container"><image class="fetch_image" src="' + src + '"></div>';
 
@@ -61,7 +60,6 @@ function showPictures(responseArray, page){
 
     var picsArray = [];
     for (var i = ((page - 1) * 10); i < ((page * 10)); i++){
-        console.log(responseArray[i])
         var thumb = new Thumbnail('image', responseArray[i].largeImageURL)
         picsArray.push(thumb);
         document.getElementById("container_large").innerHTML += thumb.html; 
