@@ -44,8 +44,16 @@ function showPictures(responseArray, page){
     for (var i = ((page - 1) * 10); i < ((page * 10)); i++){
         var thumb = new Thumbnail('image', 'responseArray[i].largeImageURL')
         picsArray.push(thumb);
-        document.getElementById("container_large").innerHTML += thumb.html;
+        document.getElementById("container_large").innerHTML += thumb.html; 
     }
+
+    var picElements =  document.getElementsByClassName('fetch_image');
+    for(var j  = 0; j < picElements.length; j++){
+        picElements[j].onclick = function(e){
+            openViewer(this);
+        }
+    }
+
 }
 
 function makePaginationButtons(responseArray){
@@ -72,6 +80,12 @@ function makePaginationButtons(responseArray){
         }
     }
 
+}
+
+function openViewer(picElement){
+    var viewer = '<div id="viewer"><image id="image_closeup" src="' + picElement.getAttribute('src') + '"></div>'    
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal').innerHTML = viewer;
 }
 
 makePaginationButtons(numArray);
