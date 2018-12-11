@@ -1,1 +1,3 @@
-console.log("hello world!");
+import './assets/less/styles.less';
+
+console.log("hello world 2!");
