@@ -11,9 +11,8 @@ function getAllPictures(endpoint){
         for(var i = 0; i <= 50; i++){
             numArray.push(i);
         }
-        makePaginationButtons(numArray);
         showPictures(numArray, 1);
-
+        makePaginationButtons(numArray);
         return
     }
     var xhr = new XMLHttpRequest();
