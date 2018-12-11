@@ -1,7 +1,7 @@
 require('./assets/less/styles.less');
 
 
-MOCK_MODE = true;
+MOCK_MODE = false;
 var url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=jersey&per_page=50'
 
 
@@ -77,6 +77,7 @@ function showPictures(responseArray, page){
         picElements[j].onclick = function(e){
             openViewer(this);
         }
+        
     }
 
     if(!document.getElementById('page_indicator').innerHTML){
@@ -95,8 +96,10 @@ function makePaginationButtons(responseArray){
     }
 
     var page_buttons = document.getElementsByClassName('pagination_button');
+    page_buttons[0].classList.add('disabled');
     for(var i = 0; i < page_buttons.length; i++) {
         var element = page_buttons[i];
+
         element.onclick = function(e) {
             var page = this.getAttribute('data-page');
             for(var j = 0; j < page_buttons.length; j++){
