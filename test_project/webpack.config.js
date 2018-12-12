@@ -39,7 +39,7 @@ const config = {
       devServer: {
         open:true,
         compress:true,
-        port: 1999,
+        port: 8080,
         contentBase: './dist',
       }
 }
