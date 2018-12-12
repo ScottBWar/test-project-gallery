@@ -8,7 +8,7 @@
     "build": "./node_modules/.bin/webpack",
     "watch": "./node_modules/.bin/webpack --watch",
     "dev": "./node_modules/.bin/webpack-dev-server",
-    "start":"npm run test && npm run dev"
+    "start": "npm run test && npm run dev"
   },
   "author": "",
   "license": "ISC",
