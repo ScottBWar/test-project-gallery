@@ -1,12 +1,9 @@
 require('./assets/less/styles.less');
 
-
 MOCK_MODE = false;
-
 INITIAL_SEARCH_TERM = "Dogs";
 
 var init_url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=' + INITIAL_SEARCH_TERM + '&per_page=50';
-
 
 function getAllPictures(endpoint) {
     if (!endpoint) {
@@ -19,14 +16,17 @@ function getAllPictures(endpoint) {
 
     xhr.onload = function() {
         if (xhr.status === 200) {
-            console.dir(xhr);
+ 
             var json = JSON.parse(xhr.responseText);
             console.dir(json.hits);
-            if (json.hits.length < 1 || !json.hits) {
+            if (!json || !json.hits) {
                 useMockMode();
+            } else if(json.hits.length === 0){
+                document.getElementById('no_results_found').classList.add('show');
             } else if (json.hits.length > 1) {
                 MOCK_MODE = false;
                 var responseArray = json.hits;
+                document.getElementById('no_results_found').classList.remove('show');
                 makePaginationButtons(responseArray);
                 showPictures(responseArray, 1);
             }
@@ -139,14 +139,16 @@ function closeViewer() {
 
 document.addEventListener("DOMContentLoaded", function(event) {
     getAllPictures(init_url);
+
+    document.getElementById('search_button').addEventListener('click', function() {
+        var searchQuery = document.getElementById('search_input').value;
+        var newUrl = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=' + searchQuery + '&per_page=50';
+        getAllPictures(newUrl);
+        document.getElementById('query_term').innerText = searchQuery;
+    });
 });
 
-document.getElementById('search_button').addEventListener('click', function() {
-    var searchQuery = document.getElementById('search_input').value;
-    var newUrl = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=' + searchQuery + '&per_page=50';
-    getAllPictures(newUrl);
-    document.getElementById('query_term').innerText = searchQuery;
-})
+
 
 
 module.exports.getAllPictures = getAllPictures;
