@@ -2,7 +2,10 @@ require('./assets/less/styles.less');
 
 
 MOCK_MODE = false;
-var init_url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q=new%20jersey&per_page=50'
+
+INITIAL_SEARCH_TERM = "Dogs";
+
+var init_url = 'https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=10961131-cc3197223dbf7e1e51fa8e690&q='+ INITIAL_SEARCH_TERM + '&per_page=50';
 
 
 function getAllPictures(endpoint){
